@@ -193,8 +193,16 @@ async def seotda_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("❌ 배팅할 금액을 입력해 주세요! (예: `!섯다 500`)")
 
-# token.txt 메모장 파일에서 토큰을 읽어와 실행합니다.
-with open("token.txt", "r", encoding="utf-8") as f:
-    TOKEN = f.read().strip()
+import os
+
+# 1. Render 환경 변수(TOKEN)를 먼저 가져오고, 없으면 내 컴퓨터의 token.txt를 읽습니다.
+TOKEN = os.getenv("TOKEN")
+
+if not TOKEN:
+    try:
+        with open("token.txt", "r", encoding="utf-8") as f:
+            TOKEN = f.read().strip()
+    except FileNotFoundError:
+        print("❌ 토큰을 찾을 수 없습니다.")
 
 bot.run(TOKEN)
