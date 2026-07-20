@@ -1,3 +1,21 @@
+import http.server
+import socketserver
+import threading
+import os
+
+# Render 무료(Web Service) 인식을 위한 웹 서버 실행 (8080 포트)
+def run_web_server():
+    port = int(os.environ.get("PORT", 8080))
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", port), handler) as httpd:
+        httpd.serve_forever()
+
+threading.Thread(target=run_web_server, daemon=True).start()
+
+# ------ 여기서부터는 기존 코드 시작 ------
+import discord
+from discord.ext import commands
+# ... (이하 기존 main.py 코드 그대로 유지)
 import discord
 from discord.ext import commands
 import random
